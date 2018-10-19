@@ -1,0 +1,28 @@
+MODULO 1
+
+Angular, o framework MVC da Google
+Um framework MVC no lado do cliente que tem ganhado muita atenção da comunidade é o Angular. Criado como um projeto interno da Google e liberado para o público em 2009, ele tem como foco a criação de Single Page Applications (SPA’s). Este tipo de aplicação não recarrega a página durante seu uso, dando uma experiência mais fluída para o usuário. Não se preocupe se você é novo para este tipo de aplicação, você terá a oportunidade de entender melhor seus conceitos ao longo do treinamento.
+
+Por onde começar?
+Angular é um framework que roda no lado do cliente, sendo assim, como qualquer outro script, deve ser importado na página que desejamos eleger como principal da aplicação, em nosso caso, a página já existente, index.html, que está salva dentro da pasta alurapic/public
+
+Criando o alicerce da nossa aplicação, o módulo principal
+A história é a seguinte: o framework nos ajuda a separar nosso código em pequenos grupos de código que podem ser combinados e reaproveitados quando necessário, esses grupos são chamados de módulos. Uma aplicação pode ter um, dez ou até mesmo mais de cinquenta módulos, tudo dependerá da complexidade da aplicação. Porém, há sempre um módulo que é o primeiro a ser inicializado assim que sua página é carregada pela primeira vez, inclusive ele também é o responsável pelo carregamento de outros módulos de que sua aplicação precisa para funcionar.
+
+Angular permite associarmos diferentes controllers para diferentes partes de nossa view, uma maneira de separar responsabilidades. Porém, neste exemplo, queremos que o controller gerencie a tag body e todos os seus elementos filhos e fazemos isso através da diretiva ng-controller, que deve ter como valor o nome exato do controller que criamos
+
+Angular disponibiliza uma ponte de ligação entre o controller e a view chamada $scope e tudo que for "pendurado" neste objeto será enxergado pela view
+
+Angular possui um termo apropriado para associação de um dado disponibilizado por um controller para a view: data binding (associação/ligação de dados). Qualquer alteração no dado do controller dispara uma atualização da view sem que o desenvolvedor tenha que se preocupar ou intervir no processo.
+
+O que aprendemos neste capítulo?
+o papel do modelo MVC
+o objeto global angular
+importação do Angular e criação do módulo principal da aplicação
+as diretivas ng-app e ng-controller
+Angular Expression (AE)
+o conceito de template
+criação de um controller
+o conceito de data binding
+
+===================================
