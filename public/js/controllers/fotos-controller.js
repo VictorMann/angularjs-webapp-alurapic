@@ -5,10 +5,27 @@
  *  Faz todo sentido, se queremos que nosso controller faça parte do módulo
  *  alurapic
  */
-angular.module('alurapic').controller('FotosController', function ($scope) {
+angular.module('alurapic').controller('FotosController', function ($scope, $http) {
     
-    $scope.foto = {
-        url : 'https://i.pinimg.com/originals/37/2a/cc/372acc72dfb648efd50181542bad3c63.jpg',
-        titulo : 'Panda vermelho'
-    };
+    // lista de fotos
+    $scope.fotos = [];
+
+    // forma abreviada
+    $http.get('/v1/fotos')
+    .success(function (fotos) {
+        $scope.fotos = fotos;
+    })
+    .error(function (erro) {
+        console.log(erro);
+    });
+
+    /* forma extendida
+    $http.get('/v1/fotos')
+    .then(function (retorno) {
+        $scope.fotos = retorno.data;
+    })
+    .catch(function (erro) {
+        console.log(erro);
+    });
+    */
 });
