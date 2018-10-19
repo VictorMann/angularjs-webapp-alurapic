@@ -26,3 +26,17 @@ criação de um controller
 o conceito de data binding
 
 ===================================
+MODULO 2
+
+Repetição com o Angular
+ng-repeat="foto in fotos"
+
+Angular possui em seus serviços o $http para fazer requisições ajax
+
+O que aprendemos neste capítulo?
+a diretiva ng-repeat
+injeção de dependências baseada no nome de parâmetro
+o serviço $http
+o conceito de promise
+comunicação com o back-end
+===================================
