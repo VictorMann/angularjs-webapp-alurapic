@@ -110,3 +110,58 @@ a criar nossas própria diretivas
 diretivas reutilizáveis devem possuir escopo isolado
 mecanismo de transclusão
 ===================================
+MODULO 4
+
+A ideia é simples: a medida que formos digitando, queremos exibir apenas as fotos que contenham em qualquer uma de suas propriedades o texto procurado.
+Vamos adicionar em FotosController uma propriedade que guardará o texto digitado pelo usuário:
+
+// public/js/controllers/fotos-controller.js
+
+angular.module('alurapic').controller('FotosController', function($scope, $http) {
+
+    $scope.fotos = [];
+    $scope.filtro = '';
+    ...
+
+Ah, então esse é o two-way data binding?
+Já sabemos acessar qualquer propriedade de $scope através de uma angular expression (AE), porém temos um problema: toda AE é somente leitura, isto é, não é capaz de atualizar $scope, que é justamente o que precisamos. É com base no que o usuário digitar que elaboraremos nossa estratégia de busca. Não queremos um data binding unidirecional, queremos um bidirecional, aquele que é capaz de ler de $scope, inclusive atualizar seu valor de acordo com a entrada do usuário.
+
+Felizmente o Angular suporta two-way data binding. A diferença é que não usamos AE, mas a diretiva ng-model. Vamos adicioná-la no input que recebe o filtro do usuário:
+ng-model="filtro"
+
+Eu não sabia que podemos filtrar com ng-repeat!
+E agora? Bem, toda vez que o usuário digitar neste campo, a propriedade $scope.filtro será atualizada! Excelente, mas como utilizaremos o valor corrente de $scope.filtro para filtrar a lista de fotos? A diretiva ng-repeat aceita receber um filtro através da propriedade filter, que deve ser adicionada imediatamente após um pipe |, sendo assim, ela ficará assim: ng-repeat="foto in fotos | filter: filtro"
+
+Deixando o usuário ainda mais feliz animando nossa lista
+Você há de concordar que melhoramos bastante a aplicação, porém a aplicação do filtro é abrupta, instantânea, imediata! Para deixar o usuário feliz, que tal se animássemos a aplicação do filtro? Podemos fazer isso de várias maneiras, por exemplo, aplicado um efeito fadeout nas fotos que não atenderem nosso filtro.
+
+IMPORTANTE: importar 
+<script src="js/lib/angular-animate.min.js"></script>
+
+Normalmente, esta é uma tarefa do mundo CSS, sendo assim, precisamos criar uma classe com o efeito desejado e aplicar essa classe via JavaScript para os elementos que deixarem nossa lista. Vamos criá-la, mas dentro do arquivo public/css/efeitos.css:
+
+/* public/css/efeitos.css*/
+
+.painel-animado {
+  -moz-transform: scale(0.1);
+  -webkit-transform: scale(0.1);
+  -ms-transform: scale(0.1);
+  -o-transform: scale(0.1);
+  transform: scale(0.1);
+}
+
+A equipe do Angular criou o módulo ngAnimate, que ataca justamente este problema. Antes de entrarmos nos detalhes de seu funcionamento, vamos importar seu script logo após o script core do Angular e adicioná-lo como dependência no módulo principal da aplicação
+
+angular.module('alurapic', ['minhasDiretivas', 'ngAnimate']);
+Pronto. Quando usamos o módulo ngAnimate, algumas diretivas do Angular passam a adicionar ou remover classes automaticamente sem a nossa ciência. São classes definidas pelo Angular, algo que lembra muito as pseudo classes do CSS3. Por exemplo, quando usamos a diretiva ng-repeat e um elemento sai da lista ele ganha a classe ng-leave, e quando está para sair ng-leave-active. Existem outras classes e nem todas as diretivas suportam as mesmas classes, sendo necessário recorrer à documentação do Angular. Sendo assim, podemos resolver nosso problema aumentado a especificidade do nosso seletor .painel-animado:
+
+Aplicando atraso na digitação
+ng-model-options="{ debounce: 500 }"
+
+O que aprendemos neste capítulo?
+a diretiva ng-model e two-way data binding
+aplicação de filtro na diretiva ng-repeat
+ng-model-options e postergação do two-way data binding
+animações com o módulo ngAnimate
+animações requerem conhecimento sólido de CSS3
+===================================
