@@ -4,4 +4,5 @@
  *  segundo é uma array com todos os módulos de que nosso 
  *  módulo depende
  */
-angular.module('alurapic', ['minhasDiretivas']);
+// angular.module('alurapic', ['minhasDiretivas']);
+angular.module('alurapic', ['minhasDiretivas', 'ngAnimate']);
