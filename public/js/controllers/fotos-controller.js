@@ -9,6 +9,8 @@ angular.module('alurapic').controller('FotosController', function ($scope, $http
     
     // lista de fotos
     $scope.fotos = [];
+    // para filtrar a lista a medida que for digitando
+    $scope.filtro = '';
 
     // forma abreviada
     $http.get('/v1/fotos')
