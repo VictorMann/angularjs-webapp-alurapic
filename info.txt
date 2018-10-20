@@ -40,3 +40,73 @@ o serviço $http
 o conceito de promise
 comunicação com o back-end
 ===================================
+MODULO 3
+
+Confinando a complexidade do painel em uma diretiva
+O mundo seria melhor se pudéssemos esconder a complexidade da marcação que vimos utilizando algo como um componente:
+podemos criar uma diretiva customizada do Angular que esconda a complexidade do painel do Bootstrap
+
+<!-- exemplo, não entra em nenhum lugar -->
+<meu-painel titulo="Leão">
+  // conteúdo do Painel
+</meu-painel>
+
+angular.module('minhasDiretivas', [])
+    .directive('meuPainel', function() {
+        var ddo = {};
+
+        ddo.restrict = "AE";
+
+        return ddo;
+    });
+Nossa diretiva ainda não está pronta, mas ela pode ser usada como elemento, assim:
+
+<!-- exemplo, não entra em nenhum lugar -->
+<meu-painel></meu-painel>
+Ou como atributo, neste caso, usamos uma div adicionando a diretiva:
+
+<!-- exemplo, não entra em nenhum lugar -->
+<div meu-painel></div>
+Uma coisa importante que pode ter passado sem você perceber. O nome da nossa diretiva está em camelCase, porém na marcação HTML estamos usando hífen. Este é um padrão do Angular que não podemos deixar de seguir, caso contrário nossa diretiva não funcionará.
+
+Isolando nossa diretiva
+Para que cada diretiva tenha seu próprio título, cada uma precisará ter um escopo isolado, que existe independente do contexto na qual está incluída. Além de permitir que cada uma tenha seus próprios dados, podemos reutilizar a diretiva em qualquer lugar sem que ela bagunce o escopo pai no qual está inserida!
+
+Precisamos capturar o título passado pela diretiva para dentro de seu escopo isolado e fazemos isso adicionando em nosso DDO a propriedade scope:
+
+// public/js/directives/minhas-diretivas.js
+
+angular.module('minhasDiretivas', [])
+.directive('meuPainel', function() {
+    ...
+    ddo.scope = {
+        titulo: '@titulo'
+    };
+    ...
+});
+
+// preserva os elementos internos da diretiva
+ddo.transclude = true;
+// necessário adicionar ao elemento que receberá os elementos
+<div class="panel-body" ng-transclude>
+    ...
+
+// definindo o template
+ddo.template = 
+    '<div class="panel panel-default">'
++   '   <div class="panel-heading">'
++   '        <h3 class="panel-title text-center">{{titulo}}</h3> '
++   '   </div>'
++   '   <div class="panel-body" ng-transclude>'
++   '   </div>'
++   '</div>'
+
+// template por arquivo separado
+ddo.templateUrl = 'js/directives/meu-painel.html'
+
+O que aprendemos neste capítulo?
+diretivas são componentes reutilizáveis
+a criar nossas própria diretivas
+diretivas reutilizáveis devem possuir escopo isolado
+mecanismo de transclusão
+===================================
