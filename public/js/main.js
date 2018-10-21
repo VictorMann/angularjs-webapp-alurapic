@@ -19,7 +19,8 @@ angular.module('alurapic', ['minhasDiretivas', 'ngAnimate', 'ngRoute'])
 
     // cadastro de novas fotos
     $routeProvider.when('/fotos/new', {
-        templateUrl: 'partials/foto.html'
+        templateUrl: 'partials/foto.html',
+        controller: 'CadastroFotoController'
     });
 
     // redireciona caso não encontre uma rota
