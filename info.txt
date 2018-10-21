@@ -228,3 +228,26 @@ $LocationProvider e html5Mode
 MODULO 6
 
 O Angular suporta a interface de eventos do JavaScript através de diretivas. Por exemplo, se quisermos o evento click, usamos a diretiva ng-click, o evento mouseouver, a diretiva ng-mouseover e assim por diante. Sendo assim, para lidarmos com o evento submit disparado pelo formulário adicionamos a diretiva ng-submit diretamente na tag form:
+
+ara desabilitar a validação do HTML5, adicionamos o atributo novalidate na tag form:
+
+A questão toda é: quem fornecerá o valor da diretiva ng-show? A resposta mora em um objeto criado implicitamente que representa nosso formulário. Qual o nome deste objeto? Seu nome é o valor do atributo name do formulário, em nosso caso, formulario. É através dele que temos acesso a todos os campos do formulário, contanto que cada um deles também tenham definido um valor para o atributo name. Sendo assim, podemos fazer para o campo título:
+
+// apenas exemplo, não entra em nenhum lugar por enquanto
+
+ng-show = "formulario.titulo.$error.required"
+Acessamos formulario.titulo.$error, que nos dá acesso à interface de erros do Angular. Como queremos saber o status da validação required, usamos formulario.titulo.$error.required:
+
+eja que agora ng-show só exibirá o elemento se as duas condições forem verdadeiras: o formulário for submetido e o campo inválido. Agora, ao recarregar a página, nosso formulário só será validado quando salvarmos o formulário, ação que disparará sua submissão.
+
+Excelente, mas o Angular permite fazer mais do que simplesmente considerar a obrigatoriedade de um campo. Existem diretivas específicas para validação. Por exemplo, vamos estipular que o campo título não pode passar de 20 caracteres através da diretiva ng-maxlength.
+
+Perfeito! Agora já podemos alterar a função $scope.submeter e utilizar o serviço $http para gravar nosso produto. Como já dizemos, pedimos $http ao serviço de injeção de dependências do Angular. Como queremos enviar os dados, usamos $http.post, que recebe dois parâmetros. O primeiro é a URL do nosso server, /v1/fotos, e como segundo os dados que serão enviados, no caso, $scope.fotos. O restante é igual já fizemos:
+
+O que aprendemos neste capítulo?
+navegação entre views
+a diretiva ng-submit e a interface de eventos do Angular
+executar uma ação no controller através de ações do usuário
+validação de formulário com Angular
+envio de dados para o servidor com $http.post
+mensagens de aviso para o usuário
