@@ -5,7 +5,7 @@ angular.module('minhasDiretivas', [])
     var ddo = {};
 
     // Veja que estamos retornando um objeto ainda sem qualquer configuração. Vamos começar restringindo a forma de uso da nossa diretiva. Como assim? Uma diretiva em Angular pode ser usada como Elemento, Atributo ou Comentário (esta última muito incomum). Vamos estipular que nossa diretiva pode ser usada tanto como atributo ou como elemento, adicionando em nosso DDO a propriedade restrict com valor "AE":
-    ddo.restict = 'AE';
+    ddo.restrict = 'AE';
     // Para que cada diretiva tenha seu próprio título, cada uma precisará ter um escopo isolado, que existe independente do contexto na qual está incluída.
     ddo.scope = {
         // titulo: @titulo -> como possuem o mesmo nome pode ausentar
@@ -22,4 +22,19 @@ angular.module('minhasDiretivas', [])
     ddo.templateUrl = 'js/directives/meu-painel.html';
 
     return ddo;
-});
+})
+.directive('minhaFoto', function () {
+
+    var ddo = {};
+
+    ddo.restrict = 'AE';
+
+    ddo.scope = {
+        titulo: '@',
+        url: '@'
+    };
+
+    ddo.template = '<img src="{{ url }}" alt="{{ titulo }}" class="img-responsive center-block">';
+
+    return ddo;
+})
