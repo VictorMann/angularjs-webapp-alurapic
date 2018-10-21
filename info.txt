@@ -165,3 +165,63 @@ ng-model-options e postergação do two-way data binding
 animações com o módulo ngAnimate
 animações requerem conhecimento sólido de CSS3
 ===================================
+MODULO 5
+
+Removido ng-controller para trabalhar com rotas
+
+O módulo ngRoute e configurações de rotas
+Você não precisa ser um vidente para saber que, assim que abrirmos o endereço http://localhost:3000, veremos uma página em branco, porém já sabe que precisamos configurar as tais rotas do Angular.
+
+Rotas são configuradas com auxílio do módulo ngRoute. Como sempre, isso envolve a importação de um script e adição do módulo como dependência do módulo principal da aplicação:
+<!-- Importando o script do módulo ngRoute -->
+<script src="js/lib/angular-route.min.js"></script>
+
+Agora, em main.js:
+
+// public/js/main.js
+
+angular.module('alurapic', ['minhasDiretivas', 'ngAnimate', 'ngRoute']);
+
+Pronto, agora que temos encaixadas as peças do quebra-cabeças, vamos às configurações! Bem, poderíamos até criar um módulo exclusivo com as configurações das rotas da aplicação, mas não é incomum essa configuração ser feita diretamente no módulo principal da aplicação através do serviço $routeProvider, que obtemos através do sistema de injeção de dependências do Angular, dentro da função config:
+
+// public/js/main.js 
+
+angular.module('alurapic', ['minhasDiretivas', 'ngAnimate', 'ngRoute'])
+.config(function($routeProvider) {
+
+});
+
+Usamos $routeProvider da seguinte maneira. Quando (when) o usuário acessar determinada rota, enviaremos para ele uma view parcial (templateUrl) e também indicamos qual é o controlador (controller) para aquela parcial. Definir o controller nos dá flexibilidade de usar uma mesma parcial com controllers diferentes:
+
+// public/js/main.js 
+
+angular.module('alurapic', ['minhasDiretivas', 'ngAnimate', 'ngRoute'])
+.config(function($routeProvider) {
+
+    $routeProvider.when('/fotos', {
+        templateUrl: 'partials/principal.html',
+        controller: 'FotosController'
+    });
+});
+
+Se abrirmos o endereço http://localhost:3000 nada será exibido, inclusive se tentarmos acessar http://localhost:3000/fotos. O Angular precisa de alguma maneira saber que o endereço que estamos tentando acessar não é um endereço do nosso servidor, mas uma de suas rotas. Fazemos isso adicionando um # (hash) antes da rota:
+
+http://localhost:3000/#/fotos
+Rotas ainda mais elegantes com Html5Mode
+Agora sim! Nossa view parcial principal.html é exibida! Mas um olhar atento revela que essa URL é um tanto estranha, pela presença do #, mas esse é um subterfúgio muito utilizado para que seja possível favoritar em seu navegador a parcial, mas, ainda assim, quando alguém abrir o endereço, quem será carregada é a view principal index.html, que buscará a parcial através do sistema de rotas do Angular. Com o advento do HTML5 foi criada a History API, que permite conseguirmos o mesmo resultado, mas sem o uso do #. O Angular suporta a History API e podemos ativá-la através do serviço $locationProvider, que também podemos pedir através do sistema de injeção de dependências:
+
+Além dessa configuração, precisamos adicionar a tag <base href="/">:
+
+Outro ponto importante é que se o seu navegador não suportar este modo, automaticamente o Angular adotará a estratégia com # (hash).
+
+ATENÇÃO: para usar html5Mode seu servidor precisa estar preparado. Esta configuração está fora do escopo deste treinamento e você deve consultar a documentação do seu servidor favorito.
+
+O que aprendemos neste capítulo?
+criação de parciais
+a diretiva ng-view
+o módulo ngRoute
+$routeProvider e configurações de rota
+rota padrão
+hash
+$LocationProvider e html5Mode
+===================================
