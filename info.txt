@@ -225,3 +225,6 @@ rota padrão
 hash
 $LocationProvider e html5Mode
 ===================================
+MODULO 6
+
+O Angular suporta a interface de eventos do JavaScript através de diretivas. Por exemplo, se quisermos o evento click, usamos a diretiva ng-click, o evento mouseouver, a diretiva ng-mouseover e assim por diante. Sendo assim, para lidarmos com o evento submit disparado pelo formulário adicionamos a diretiva ng-submit diretamente na tag form:
