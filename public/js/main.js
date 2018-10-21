@@ -6,7 +6,11 @@
  */
 // angular.module('alurapic', ['minhasDiretivas']);
 angular.module('alurapic', ['minhasDiretivas', 'ngAnimate', 'ngRoute'])
-.config(function ($routeProvider) {
+.config(function ($routeProvider, $locationProvider) {
+
+    // defindo rota sem /#/ deve-se configurar o back-end antes
+    $locationProvider.html5Mode(true);
+
     // define rota para lista de fotos
     $routeProvider.when('/fotos', {
         templateUrl: 'partials/principal.html',
