@@ -38,3 +38,18 @@ angular.module('minhasDiretivas', [])
 
     return ddo;
 })
+.directive('meuBotaoPerigo', function () {
+
+    var ddo = {};
+
+    ddo.restrict = 'E';
+
+    ddo.scope = {
+        nome: '@',
+        acao: '&'
+    };
+
+    ddo.template = '<button ng-click="acao(foto)" class="btn btn-danger btn-block">{{ nome }}</button>';
+
+    return ddo;
+})
