@@ -251,3 +251,88 @@ executar uma ação no controller através de ações do usuário
 validação de formulário com Angular
 envio de dados para o servidor com $http.post
 mensagens de aviso para o usuário
+===================================
+MODULO 12
+
+Usamos @ quando queremos realizar uma cópia do valor passado para a diretiva no HTML para dentro do escopo isolado na diretiva. Essa cópia é sempre um valor em string.
+
+Usamos & geralmente quando queremos executar dentro de uma diretiva uma função que pertence a um escopo pai, o de um controller.
+
+Usamos = quando queremos que tanto a diretiva quanto o controller acessem o mesmo dado, isto é, qualquer alteração no escopo privado da diretiva afetará a propriedade do controller e qualquer alteração nesta propriedade no controller afetará a diretiva. Temos aqui uma comunicação bidirecional.
+
+Diretivas possuem a propriedade link, cuja função nos dá acesso ao elemento do DOM no qual ela foi adicionada na marcação HTML, inclusive ao escopo privado da diretiva. É nela que manipulamos DOM quando necessário.
+
+Sobre o código seguinte:
+
+// módulo omitido
+.directive('meuFocus', function() {
+    var ddo = {};
+    ddo.restrict = "A";
+    ddo.scope = {
+        focado : '='
+    };
+    ddo.link = function(scope, element) {
+
+    };
+
+    return ddo;
+});
+
+Vejamos a seguinte diretiva:
+
+// módulo omitido
+.directive('meuFocus', function() {
+    var ddo = {};
+    ddo.restrict = "A";
+    ddo.scope = {
+        focado : '='
+    };
+
+    ddo.link = function(scope, element) {
+        // quero observar qualquer mudança em `focado`!
+    };
+
+    return ddo;
+})
+Com base no código acima, implemente as alterações devidas para que exiba a mensagem "mudei" toda vez que a propriedade "focado" mudar, seja na diretiva ou no controller.
+
+Com base no código acima, implemente as alterações devidas para que exiba a mensagem "mudei" toda vez que a propriedade "focado" mudar, seja na diretiva ou no controller.
+
+Você poderia ter pensado na seguinte solução:
+
+// módulo omitido
+.directive('meuFocus', function() {
+    var ddo = {};
+    ddo.restrict = "A";
+    ddo.scope = {
+        focado : '='
+    };
+
+    ddo.link = function(scope, element) {
+        // quero observar qualquer mudança em `focado`!
+        scope.$watch('focado', function() {
+                alert('mudei');
+        });
+    };
+
+    return ddo;
+})
+
+O $watch é mais inteligente ainda, podemos receber o valor atual e o valor antes da mudança como parâmetros:
+
+// módulo omitido
+.directive('meuFocus', function() {
+    var ddo = {};
+    ddo.restrict = "A";
+    ddo.scope = {
+        focado : '='
+    };
+
+    ddo.link = function(scope, element) {
+        // quero observar qualquer mudança em `focado`!
+        scope.$watch('focado', function(novoValor, valorAntigo) {
+                alert('mudei');
+        });
+    };
+    return ddo;
+})
