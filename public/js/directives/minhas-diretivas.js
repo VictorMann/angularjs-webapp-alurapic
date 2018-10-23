@@ -53,3 +53,16 @@ angular.module('minhasDiretivas', [])
 
     return ddo;
 })
+.directive('meuFocus', function () {
+
+    var ddo = {};
+
+    ddo.link = function (scope, element) {
+        scope.$on('fotoCadastrada', function () {
+            // defive evento de foco no elemento
+            element[0].focus();
+        });
+    };
+
+    return ddo;
+})
