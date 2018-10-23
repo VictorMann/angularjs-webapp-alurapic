@@ -5,7 +5,7 @@
  *  módulo depende
  */
 // angular.module('alurapic', ['minhasDiretivas']);
-angular.module('alurapic', ['minhasDiretivas', 'ngAnimate', 'ngRoute', 'ngResource'])
+angular.module('alurapic', ['minhasDiretivas', 'ngAnimate', 'ngRoute', 'meusServicos'])
 .config(function ($routeProvider, $locationProvider) {
 
     // defindo rota sem /#/ deve-se configurar o back-end antes
