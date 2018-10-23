@@ -5,7 +5,7 @@
  *  Faz todo sentido, se queremos que nosso controller faça parte do módulo
  *  alurapic
  */
-angular.module('alurapic').controller('FotosController', function ($scope, $http) {
+angular.module('alurapic').controller('FotosController', function ($scope, $http, $resource) {
     
     // lista de fotos
     $scope.fotos = [];
@@ -13,6 +13,20 @@ angular.module('alurapic').controller('FotosController', function ($scope, $http
     $scope.filtro = '';
     // mensagem para o usuário em casos de mudanças
     $scope.mensagem = '';
+
+    var recursoFoto = $resource('/v1/fotos/:fotoId');
+
+    recursoFoto.query(
+        function (fotos) {
+            $scope.fotos = fotos;
+        },
+        function (erro) {
+            console.log(erro);
+        }
+    );
+    
+    /* 
+    metodo de consulta anterior sem $resource
 
     // forma abreviada
     $http.get('/v1/fotos')
@@ -23,7 +37,7 @@ angular.module('alurapic').controller('FotosController', function ($scope, $http
         console.log(erro);
     });
 
-    /* forma extendida
+     forma extendida
     $http.get('/v1/fotos')
     .then(function (retorno) {
         $scope.fotos = retorno.data;
@@ -34,6 +48,21 @@ angular.module('alurapic').controller('FotosController', function ($scope, $http
     */
 
     $scope.remover = function (foto) {
+        recursoFoto.delete({fotoId: foto._id},
+            function () {
+                // obtem o indice da foto para ser removido da lista
+                var indiceFoto = $scope.fotos.indexOf(foto);
+                // removendo foto da lista
+                $scope.fotos.splice(indiceFoto, 1);
+                $scope.mensagem = 'Foto ' + foto.titulo + ' removida com sucesso!';
+            },
+            function (erro) {
+                console.log(erro);
+                $scope.mensagem = 'Nao foi possivel remover a foto ' + foto.titulo; 
+            }
+        );
+
+        /* forma anterior sem $resource
         $http.delete('v1/fotos/' + foto._id)
         .success(function () {
             // obtem o indice da foto para ser removido da lista
@@ -46,5 +75,6 @@ angular.module('alurapic').controller('FotosController', function ($scope, $http
             console.log(erro);
             $scope.mensagem = 'Nao foi possivel remover a foto ' + foto.titulo; 
         });
+        */
     };
 });
