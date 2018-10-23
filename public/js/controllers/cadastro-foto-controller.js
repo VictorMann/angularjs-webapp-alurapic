@@ -1,4 +1,4 @@
-angular.module('alurapic').controller('CadastroFotoController', function ($scope, $http, $routeParams) {
+angular.module('alurapic').controller('CadastroFotoController', function ($scope, $http, recursoFoto, $routeParams) {
 
     $scope.foto = {};
     $scope.mensagem = '';
@@ -6,13 +6,15 @@ angular.module('alurapic').controller('CadastroFotoController', function ($scope
     // caso para edição
     var id = $routeParams.fotoId;
     if (id) {
-        $http.get('v1/fotos/' + id)
-        .success(function (foto) {
-            $scope.foto = foto;
-        })
-        .error(function (erro) {
-            $scope.mensagem = 'Foto não encontrada';
-        });
+        recursoFoto.get({fotoId: id},
+            function (foto) {
+                $scope.foto = foto;
+            },
+            function (erro) {
+                $scope.mensagem = 'Foto não encontrada';
+                console.log(erro);
+            }
+        );
     }
 
     $scope.submeter = function () {
@@ -20,17 +22,19 @@ angular.module('alurapic').controller('CadastroFotoController', function ($scope
         if ($scope.formulario.$valid) {
             // PUT : edição
             if (id) {
-                $http.put('v1/fotos/' + id, $scope.foto)
-                .success(function () {
-                    $scope.mensagem = 'Foto atualizada!';
-                })
-                .error(function (erro) {
-                    $scope.mensagem = 'Erro ao atualizar a foto';
-                    console.log(erro);
-                });
-
+                recursoFoto.update({fotoId: id}, $scope.foto,
+                    function () {
+                        $scope.mensagem = 'Foto atualizada!';
+                    },
+                    function (erro) {
+                        $scope.mensagem = 'Erro ao atualizar a foto';
+                        console.log(erro);
+                    }
+                );
+                
             // POST : novo
             } else {
+
                 $http.post('v1/fotos', $scope.foto)
                 .success(function () {
                     $scope.foto = {};

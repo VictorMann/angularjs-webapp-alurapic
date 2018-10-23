@@ -5,7 +5,7 @@
  *  Faz todo sentido, se queremos que nosso controller faça parte do módulo
  *  alurapic
  */
-angular.module('alurapic').controller('FotosController', function ($scope, $http, $resource) {
+angular.module('alurapic').controller('FotosController', function ($scope, recursoFoto) {
     
     // lista de fotos
     $scope.fotos = [];
@@ -13,8 +13,6 @@ angular.module('alurapic').controller('FotosController', function ($scope, $http
     $scope.filtro = '';
     // mensagem para o usuário em casos de mudanças
     $scope.mensagem = '';
-
-    var recursoFoto = $resource('/v1/fotos/:fotoId');
 
     recursoFoto.query(
         function (fotos) {
